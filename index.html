@@ -7,11 +7,15 @@
     <link rel="stylesheet" href="/static/css/style.css" />
   </head>
   <body>
-    <form action="">
+    <form method="post" action="/add-note">
       <div class="container">
         <h1>Add New Note</h1>
         <input type="text" name="note-name" placeholder="Note Name" />
-        <textarea name="note" id="note" placeholder="Note"></textarea>
+        <textarea
+          name="note-content"
+          id="note-content"
+          placeholder="Note"
+        ></textarea>
         <button type="submit">Add</button>
         <span class="cancel"><img src="static/images/close.svg" alt="" /></span>
       </div>

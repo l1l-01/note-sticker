@@ -12,6 +12,24 @@ func pageHandler(w http.ResponseWriter,r *http.Request){
 	http.ServeFile(w,r,"index.html")
 }
 
+func addNoteHandler(w http.ResponseWriter,r *http.Request){
+	if r.Method != http.MethodPost {
+		http.Error(w,"invalid request method",http.StatusMethodNotAllowed)
+		return
+	}
+	if err := r.ParseForm(); err != nil {
+		http.Error(w,"failed to parse form: %v",http.StatusBadRequest)
+		return
+	}
+	noteName := r.FormValue("note-name")
+	noteContent := r.FormValue("note-content")
+	if err := addNote(noteName,noteContent); err != nil {
+		http.Error(w,"failed to add note",http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(w,r,"/msg=?note+was+added+successfully!",http.StatusSeeOther)
+}
+
 func main(){
 	dsn := "root:@(localhost:3306)/notes?parseTime=true"
 	if err := InitDB(dsn); err != nil {
@@ -26,6 +44,8 @@ func main(){
 
 	fimg := http.FileServer(http.Dir("static/images"))
 	http.Handle("/static/images/",http.StripPrefix("/static/images/",fimg))
+
+	http.HandleFunc("/add-note",addNoteHandler)
 
 	http.HandleFunc("/",pageHandler)
 	fmt.Println("Server is runing on http//:localhost8080")

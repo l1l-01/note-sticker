@@ -21,3 +21,13 @@ func InitDB(dsn string)error{
     fmt.Println("connected successfully to database")
     return nil
 }
+
+func addNote(noteName, noteContent string)error{
+    query := "INSERT INTO note (note_name,note_content) VALUES (?,?)"
+    _, err := DB.Exec(query,noteName,noteContent)
+    if err != nil {
+        return fmt.Errorf("failed to insert note: %v",err)
+    }
+    fmt.Println("note was inserted successfully")
+    return nil
+}
