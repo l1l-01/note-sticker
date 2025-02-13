@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func pageHandler(w http.ResponseWriter,r *http.Request){
@@ -10,6 +13,11 @@ func pageHandler(w http.ResponseWriter,r *http.Request){
 }
 
 func main(){
+	dsn := "root:@(localhost:3306)/notes?parseTime=true"
+	if err := InitDB(dsn); err != nil {
+		log.Fatal(err)
+	}
+	defer DB.Close()
 	fs := http.FileServer(http.Dir("static/css"))
 	http.Handle("/static/css/", http.StripPrefix("/static/css/", fs))
 
