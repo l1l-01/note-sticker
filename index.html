@@ -20,14 +20,15 @@
         <span class="cancel"><img src="static/images/close.svg" alt="" /></span>
       </div>
     </form>
+    {{range .}}
     <div class="note">
-      <h1>Note Name</h1>
-      <span>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Delectus
-        doloribus velit, iure quod a doloremque tenetur non molestias nesciunt
-        maiores est autem eveniet corporis, at impedit natus et sint. Quidem.
-      </span>
+      <div class="move">
+        <img src="static/images/move.svg" alt="move" />
+      </div>
+      <h1>{{.note_name}}</h1>
+      <span> {{.note_content}} </span>
     </div>
+    {{end}}
     <div class="add">
       <img src="static/images/add.svg" alt="add" />
     </div>

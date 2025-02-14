@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -30,4 +31,31 @@ func addNote(noteName, noteContent string)error{
     }
     fmt.Println("note was inserted successfully")
     return nil
+}
+
+func getNotes()([]map[string]string,error){
+    query := "SELECT * FROM note"
+    rows, err := DB.Query(query)
+    if err != nil {
+        return nil, fmt.Errorf("failed to query note: %v",err)
+    }
+    defer rows.Close()
+    var  notes []map[string]string
+    for rows.Next(){
+        var id int64
+        var noteName, noteContent string
+        if err := rows.Scan(&id,&noteName,&noteContent); err != nil {
+            return nil, fmt.Errorf("failed to scan notes: %v",err)
+        }
+        note := map[string]string{
+            "id": strconv.FormatInt(id,10),
+            "note_name": noteName,
+            "note_content": noteContent,
+        }
+        notes = append(notes, note)
+    }
+    if err != nil {
+        return nil, fmt.Errorf("error iterating note: %v",err)
+    }
+    return notes,nil
 }

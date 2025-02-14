@@ -2,14 +2,21 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func pageHandler(w http.ResponseWriter,r *http.Request){
-	http.ServeFile(w,r,"index.html")
+func HomeHandler(w http.ResponseWriter,r *http.Request){
+	notes, err := getNotes()
+	if err != nil {
+		http.Error(w,"failed to fetch notes",http.StatusInternalServerError)
+		return
+	}
+	tmpl := template.Must(template.ParseFiles("index.html"))
+	tmpl.Execute(w,notes)
 }
 
 func addNoteHandler(w http.ResponseWriter,r *http.Request){
@@ -47,7 +54,7 @@ func main(){
 
 	http.HandleFunc("/add-note",addNoteHandler)
 
-	http.HandleFunc("/",pageHandler)
+	http.HandleFunc("/",HomeHandler)
 	fmt.Println("Server is runing on http//:localhost8080")
 	if err := http.ListenAndServe(":8080",nil); err != nil {
 		fmt.Println("Error starting server: ",err)
