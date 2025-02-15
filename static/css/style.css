@@ -76,6 +76,7 @@ body .note {
   color: var(--clr3);
   text-align: center;
   box-shadow: 0 0 3px var(--clr2);
+  position: fixed;
 }
 
 .note h1 {
@@ -215,7 +216,7 @@ body .move {
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  cursor: move;
   background-color: var(--clr2);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
