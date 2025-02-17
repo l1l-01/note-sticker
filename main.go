@@ -19,6 +19,10 @@ func HomeHandler(w http.ResponseWriter,r *http.Request){
 	tmpl.Execute(w,notes)
 }
 
+func EditHandler(w http.ResponseWriter,r *http.Request){
+	http.ServeFile(w,r,"edit/index.html")
+}
+
 func addNoteHandler(w http.ResponseWriter,r *http.Request){
 	if r.Method != http.MethodPost {
 		http.Error(w,"invalid request method",http.StatusMethodNotAllowed)
@@ -53,8 +57,9 @@ func main(){
 	http.Handle("/static/images/",http.StripPrefix("/static/images/",fimg))
 
 	http.HandleFunc("/add-note",addNoteHandler)
-
+	http.HandleFunc("/edit/",EditHandler)
 	http.HandleFunc("/",HomeHandler)
+
 	fmt.Println("Server is runing on http//:localhost8080")
 	if err := http.ListenAndServe(":8080",nil); err != nil {
 		fmt.Println("Error starting server: ",err)
