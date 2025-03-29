@@ -3,7 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Note</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="/static/css/edit.css" />
   </head>
-  <body></body>
+  <body>
+    <form method="post" action="/edit-note">
+      <div class="container">
+        <h1>Add New Note</h1>
+        <input
+          type="text"
+          name="note-name"
+          placeholder="Note Name"
+          value="{{.noteName}}"
+        />
+        <input type="hidden" value="{{.noteId}}" name="note-id" />
+        <textarea name="note-content" id="note-content" placeholder="Note">
+{{.noteContent}}</textarea
+        >
+        <button type="submit">Add</button>
+        <span class="cancel"><img src="static/images/close.svg" alt="" /></span>
+      </div>
+    </form>
+  </body>
 </html>

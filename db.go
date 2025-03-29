@@ -59,3 +59,24 @@ func getNotes()([]map[string]string,error){
     }
     return notes,nil
 }
+
+
+func GetNoteById(id int64)(map[string]string,error){
+    query := "SELECT id, note_name,note_content FROM note WHERE id = ?"
+    row := DB.QueryRow(query,id)
+    var noteId int64
+    var noteName, noteContent string
+    if err := row.Scan(&noteId, &noteName, &noteContent); err != nil {
+        if err == sql.ErrNoRows {
+            return nil, fmt.Errorf("task not found")
+        }
+        return nil, fmt.Errorf("failed to scan task: %v", err)
+    }
+    targetNote := map[string]string{
+        "noteId": strconv.FormatInt(id,10),
+        "noteName": noteName,
+        "noteContent": noteContent,
+    }
+
+    return targetNote, nil
+}

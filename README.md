@@ -10,7 +10,6 @@
 - **Edit & Delete**: Modify or remove existing notes.
 - **Drag & Drop**: Move notes around the screen for better organization.
 - **Save & Load**: Notes are saved on the server
-- **Responsive Design**: Works on both desktop and mobile devices.
 
 ---
 

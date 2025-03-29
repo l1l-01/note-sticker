@@ -28,7 +28,9 @@
       <h1>{{.note_name}}</h1>
       <span> {{.note_content}} </span>
       <div class="action">
-        <a href=""><img src="static/images/edit.svg" alt="edit" /></a>
+        <a href="/edit/?note-id={{.id}}"
+          ><img src="static/images/edit.svg" alt="edit"
+        /></a>
         <a href=""><img src="static/images/delete.svg" alt="delete" /></a>
       </div>
     </div>
